@@ -6,24 +6,20 @@ Welcome to our collaborative project between Yamix27 and Hmddev23 to develop our
 
 The primary objective of this project is to create a personalized version of the printf function in C. Printf is commonly used to print formatted output to the standard output stream. Our custom implementation aims to support all the conversion specifiers and flags found in the standard printf function.
 
+
 ## Project Structure
 
 The project is organized as follows:
 
 - `README.md`: The current file you are reading, containing project information.
-- `_printf.c`: Contains the main implementation of our custom printf function.
-- `_printf_37.c`: Implements the conversion specifier %.
-- `_print_nums.c`: Handles conversion specifiers d, i, u, o, x, and X.
-- `consol.c`: Main function for testing our custom printf function.
-- `flags.c`: Implements the flags - and +.
 - `main.h`: Header file containing function prototypes and necessary libraries.
-- `print_b-p.c`: Deals with conversion specifiers b and p.
-- `print_exclusive.c`: Takes care of conversion specifiers e, E, and f.
-- `print_srev.c`: Implements the conversion specifier r.
-- `printf_char.c`: Implements the conversion specifier c.
-- `printf_string.c`: Handles the conversion specifier s.
-- `printf_tools.c`: Contains utility functions used by our custom printf function.
-- `rot13.c`: Implements the rot13 function used by the conversion specifier R.
+- `_printf.c`: Contains the main implementation of our custom printf function.
+- `print_char.c`: Implements the function to print a character.
+- `print_string.c`: Implements the function to print a string.
+- `handle_conversion_specifier.c`: Implements the function to handle the conversion specifier %c, %s, and %%.
+
+In this project structure, the main implementation of the custom `_printf` function is in the `_printf.c` file. The other source files contain functions responsible for handling specific conversion specifiers, such as printing a character and printing a string. The header file `main.h` provides function prototypes and necessary includes for the entire project. Each function is separated into its own source file for improved code organization and maintainability.
+
 
 ## Getting Started
 
