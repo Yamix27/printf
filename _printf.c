@@ -1,66 +1,81 @@
 #include "main.h"
 
-void print_buffer(char buffer[], int *buff_ind);
-
 /**
- * _printf - Printf function
- * @format: format.
- * Return: Printed chars.
- */
+  * _printf - Custom implementation of printf.
+  *
+  * @format: The format string.
+  *
+  * Return: The number of characters printed.
+  */
+
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
+	int count = 0;
+	char c;
+	va_list args;
 
-	if (format == NULL)
-		return (-1);
+	va_start(args, format);
 
-	va_start(list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
+	while ((c = *format++))
 	{
-		if (format[i] != '%')
+		if (c != '%')
 		{
-			buffer[buff_ind++] = format[i];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
-			/* write(1, &format[i], 1);*/
-			printed_chars++;
+			count += print_char(c);
 		}
 		else
 		{
-			print_buffer(buffer, &buff_ind);
-			flags = get_flags(format, &i);
-			width = get_width(format, &i, list);
-			precision = get_precision(format, &i, list);
-			size = get_size(format, &i);
-			++i;
-			printed = handle_print(format, &i, list, buffer,
-				flags, width, precision, size);
-			if (printed == -1)
-				return (-1);
-			printed_chars += printed;
+			c = *format++;
+			switch (c)
+			{
+				case 'c':
+					char ch = (char)va_arg(args, int);
+
+					count += print_char(ch);
+					break;
+				case 's':
+					const char *str = va_arg(args, const char*);
+
+					count += print_string(str);
+					break;
+				case '%':
+					count += print_char('%');
+					break;
+				case 'd':
+				case 'i':
+					int num = va_arg(args, int);
+
+					count += print_integer(num);
+					break;
+				case 'u':
+					unsigned int num = va_arg(args, unsigned int);
+
+					count += print_unsigned(num);
+					break;
+				case 'o':
+					unsigned int num = va_arg(args, unsigned int);
+
+					count += print_octal(num);
+					break;
+				case 'x':
+				case 'X':
+					unsigned int num = va_arg(args, unsigned int);
+					int uppercase = (c == 'X') ? 1 : 0;
+
+					count += print_hexadecimal(num, uppercase);
+					break;
+				case 'p':
+					void *ptr = va_arg(args, void*);
+
+					count += print_pointer(ptr);
+					break;
+				default:
+					count += print_char('%');
+					count += print_char(c);
+			}
 		}
 	}
 
-	print_buffer(buffer, &buff_ind);
+	va_end(args);
 
-	va_end(list);
-
-	return (printed_chars);
-}
-
-/**
- * print_buffer - Prints the contents of the buffer if it exist
- * @buffer: Array of chars
- * @buff_ind: Index at which to add next char, represents the length.
- */
-void print_buffer(char buffer[], int *buff_ind)
-{
-	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
-
-	*buff_ind = 0;
+	return (count);
 }
