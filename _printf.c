@@ -11,17 +11,17 @@
 int _printf(const char *format, ...)
 {
 	unsigned int count = 0;
-	char c;
 	va_list args;
 
 	va_start(args, format);
-	while ((c = *format++))
+	while (*format)
 	{
-		if (c != '%')
-			count += print_char(c);
+		if (*format != '%')
+			count += print_char(*format++);
 		else
 		{
-			c = *format++;
+			format++;
+			char c = *format++;
 			switch (c)
 			{
 				case 'c':
@@ -54,5 +54,5 @@ int _printf(const char *format, ...)
 		}
 	}
 	va_end(args);
-	return count;
+	return (count);
 }
