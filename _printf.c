@@ -15,13 +15,10 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	va_start(args, format);
-
 	while ((c = *format++))
 	{
 		if (c != '%')
-		{
 			count += print_char(c);
-		}
 		else
 		{
 			c = *format++;
@@ -74,8 +71,6 @@ int _printf(const char *format, ...)
 			}
 		}
 	}
-
 	va_end(args);
-
 	return (count);
 }

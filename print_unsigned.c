@@ -7,7 +7,6 @@
   *
   * Return: The number of characters printed.
   */
-
 int print_unsigned(unsigned int num)
 {
 	unsigned int temp;
@@ -19,14 +18,12 @@ int print_unsigned(unsigned int num)
 		count += print_char('0');
 		return (count);
 	}
-
 	temp = num;
 	while (temp)
 	{
 		temp /= 10;
 		num_digits++;
 	}
-
 	temp = num;
 	while (num_digits)
 	{
@@ -37,11 +34,11 @@ int print_unsigned(unsigned int num)
 			divisor *= 10;
 
 		unsigned int digit = temp / divisor;
+
 		temp %= divisor;
 
 		count += print_char('0' + digit);
 		num_digits--;
 	}
-
 	return (count);
 }

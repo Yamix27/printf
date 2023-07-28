@@ -12,5 +12,5 @@ int print_pointer(void *ptr)
 {
 	printf("%p", ptr);
 
-	return (sizeof(void*) * 2);
+	return (sizeof(void *) * 2);
 }

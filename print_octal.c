@@ -19,14 +19,12 @@ int print_octal(unsigned int num)
 		count += print_char('0');
 		return (count);
 	}
-
 	temp = num;
 	while (temp)
 	{
 		temp /= 8;
 		num_digits++;
 	}
-
 	temp = num;
 	while (num_digits)
 	{
@@ -37,11 +35,11 @@ int print_octal(unsigned int num)
 			divisor *= 8;
 
 		unsigned int digit = temp / divisor;
+
 		temp %= divisor;
 
 		count += print_char('0' + digit);
 		num_digits--;
 	}
-
 	return (count);
 }

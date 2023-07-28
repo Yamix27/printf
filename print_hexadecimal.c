@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
-  * print_hexadecimal - Prints a hexadecimal number (supports 'x' and 'X' specifiers).
+  * print_hexadecimal - Prints a hexadecimal number.
   *
   * @num: The unsigned integer to be printed in hexadecimal.
   * @uppercase: 1 for uppercase (X), 0 for lowercase (x).
@@ -23,14 +23,12 @@ int print_hexadecimal(unsigned int num, int uppercase)
 		count += print_char('0');
 		return (count);
 	}
-
 	temp = num;
 	while (temp)
 	{
 		temp /= 16;
 		num_digits++;
 	}
-
 	temp = num;
 	while (num_digits)
 	{
@@ -41,11 +39,11 @@ int print_hexadecimal(unsigned int num, int uppercase)
 			divisor *= 16;
 
 		unsigned int digit = temp / divisor;
+
 		temp %= divisor;
 
 		count += print_char(hex_array[digit]);
 		num_digits--;
 	}
-
 	return (count);
 }
