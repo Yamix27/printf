@@ -22,6 +22,7 @@ int _printf(const char *format, ...)
 		{
 			format++;
 			char c = *format++;
+
 			switch (c)
 			{
 				case 'c':
