@@ -1,81 +1,72 @@
 #include "main.h"
 
+void print_buffer(char buffer[], int *buff_ind);
+
 /**
- * _printf - Custom implementation of printf.
- *
- * @format: The format string.
- *
- * Return: The number of characters printed.
- */
+  * _printf - Printf function.
+  *
+  * @format: format.
+  *
+  * Return: Printed chars.
+  */
 
-unsigned int _printf(const char *format, ...)
+int _printf(const char *format, ...)
 {
-	unsigned int count = 0;
-	va_list args;
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
+	va_list list;
+	char buffer[BUFF_SIZE];
 
-	va_start(args, format);
-	while (*format)
+	if (format == NULL)
+		return (-1);
+
+	va_start(list, format);
+
+	for (i = 0; format && format[i] != '\0'; i++)
 	{
-		if (*format != '%')
-			count += print_char(*format++);
+		if (format[i] != '%')
+		{
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer(buffer, &buff_ind);
+			printed_chars++;
+		}
 		else
 		{
-			format++;
-			count += parse_format(format, &args);
-			format++;
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
+			++i;
+			printed = handle_print(format, &i, list, buffer,
+			flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			printed_chars += printed;
 		}
 	}
-	va_end(args);
-	return (count);
+
+	print_buffer(buffer, &buff_ind);
+
+	va_end(list);
+
+	return (printed_chars);
 }
 
 /**
- * parse_format - Parses and handles the format specifier.
- *
- * @format: Pointer to the format specifier.
- * @args: The argument list.
- *
- * Return: The number of characters printed for this specifier.
- */
-unsigned int parse_format(const char *format, va_list *args)
+  * print_buffer - Prints the contents of the buffer if it exist.
+  *
+  * @buffer: Array of chars.
+  * @buff_ind: Index at which to add next char, represents the length.
+  * 
+  * Return: Nothing.
+  */
+
+void print_buffer(char buffer[], int *buff_ind)
 {
-	unsigned int count = 0;
-	char c = *format;
+	if (*buff_ind > 0)
+		write(1, &buffer[0], *buff_ind);
 
-	switch (c)
-	{
-		case 'c':
-			count += print_char((char)va_arg(*args, int));
-			break;
-		case 's':
-			count += print_string(va_arg(*args, const char *));
-			break;
-		case '%':
-			count += print_char('%');
-			break;
-		case 'd':
-		case 'i':
-			count += print_integer(va_arg(*args, int));
-			break;
-		case 'u':
-			count += print_unsigned(va_arg(*args, unsigned int));
-			break;
-		case 'o':
-			count += print_octal(va_arg(*args, unsigned int));
-			break;
-		case 'x':
-			count += print_hex(va_arg(*args, unsigned int), 0);
-			break;
-		case 'X':
-			count += print_hex(va_arg(*args, unsigned int), 1);
-			break;
-		case 'p':
-			count += print_pointer(va_arg(*args, void *));
-			break;
-		default:
-			count += print_char('%');
-			count += print_char(c);
-	}
-
-	return (count);
+	*buff_ind = 0;
 }
