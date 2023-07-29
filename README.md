@@ -8,15 +8,33 @@ The primary objective of this project is to create a personalized version of the
 
 
 ## Project Structure
-
 The project is organized as follows:
 
-- `README.md`: The current file you are reading, containing project information.
-- `main.h`: Header file containing function prototypes and necessary libraries.
-- `_printf.c`: Contains the main implementation of our custom printf function.
-- `print_char.c`: Implements the function to print a character.
-- `print_string.c`: Implements the function to print a string.
-- `handle_conversion_specifier.c`: Implements the function to handle the conversion specifier %c, %s, and %%.
+- `_printf.c`: This file contains the main implementation of our custom printf function. It handles parsing the format string and calling appropriate functions to handle different conversion specifiers.
+
+- `functions.c`: In this file, you'll find the implementations of functions to handle specific conversion specifiers. For example, functions for handling `%d` (signed integers), `%f` (floating-point numbers), `%o` (octal numbers), etc.
+
+- `functions1.c`: This file contains additional functions to handle more conversion specifiers, such as `%x` (hexadecimal numbers), `%u` (unsigned integers), `%e` (scientific notation), etc.
+
+- `functions2.c`: Here, you'll find further functions to handle additional conversion specifiers, if needed, or any other custom functionality related to printing.
+
+- `get_flags.c`: This file implements functions to extract any flags used in the format string, like `+`, `-`, `0`, etc., which modify the output behavior.
+
+- `get_precision.c`: Contains functions to retrieve the precision specified in the format string (e.g., `%.2f`).
+
+- `get_size.c`: In this file, you'll find functions to handle size modifiers (e.g., `h`, `l`, `ll`, `j`, `z`) used with conversion specifiers.
+
+- `get_width.c`: Implements functions to extract the field width specified in the format string (e.g., `%10d`).
+
+- `handle_print.c`: This file includes functions responsible for the actual printing of characters and strings to the output.
+
+- `main.h`: The header file contains function prototypes and necessary libraries used in the project.
+
+- `README.md`: This is the current file you are reading, which contains essential information about the project.
+
+- `utils.c`: Contains utility functions that might be required across multiple parts of the project.
+
+- `write_handlers.c`: This file includes functions to handle writing to the output. It abstracts away the low-level write functionality for the custom printf implementation.
 
 In this project structure, the main implementation of the custom `_printf` function is in the `_printf.c` file. The other source files contain functions responsible for handling specific conversion specifiers, such as printing a character and printing a string. The header file `main.h` provides function prototypes and necessary includes for the entire project. Each function is separated into its own source file for improved code organization and maintainability.
 
